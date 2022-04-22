@@ -7,6 +7,12 @@ import 'package:win32/win32.dart';
 import 'capture_mode.dart';
 import 'system_screen_capturer.dart';
 
+final Map<CaptureMode, String> _knownCaptureModeArgs = {
+  CaptureMode.region: 'Rectangle',
+  CaptureMode.screen: '',
+  CaptureMode.window: 'Window',
+};
+
 bool _isScreenClipping() {
   final int hWnd = GetForegroundWindow();
   final lpdwProcessId = calloc<Uint32>();
@@ -70,11 +76,15 @@ class SystemScreenCapturerImplWindows extends SystemScreenCapturer {
     CaptureMode mode = CaptureMode.region,
     bool silent = true,
   }) async {
+    if (mode == CaptureMode.screen) {
+      throw UnsupportedError('capture screen');
+    }
     await Clipboard.setData(const ClipboardData(text: ''));
     ShellExecute(
       0,
       'open'.toNativeUtf16(),
-      'ms-screenclip:'.toNativeUtf16(),
+      'ms-screenclip://?clippingMode=${_knownCaptureModeArgs[mode]}'
+          .toNativeUtf16(),
       nullptr,
       nullptr,
       SW_SHOWNORMAL,
