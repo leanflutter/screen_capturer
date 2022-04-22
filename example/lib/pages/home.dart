@@ -31,19 +31,20 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
-  void _handleClickCapture() async {
+  void _handleClickCapture(CaptureMode mode) async {
     Directory directory = await getApplicationDocumentsDirectory();
     String imageName =
         'Screenshot-${DateTime.now().millisecondsSinceEpoch}.png';
     String imagePath =
         '${directory.path}/screen_capturer_example/Screenshots/$imageName';
     _lastCapturedData = await ScreenCapturer.instance.capture(
+      mode: mode,
       imagePath: imagePath,
       silent: true,
     );
     if (_lastCapturedData != null) {
       // ignore: avoid_print
-      print(_lastCapturedData!.toJson());
+      // print(_lastCapturedData!.toJson());
     } else {
       // ignore: avoid_print
       print('User canceled capture');
@@ -82,9 +83,26 @@ class _HomePageState extends State<HomePage> {
           children: [
             PreferenceListItem(
               title: const Text('capture'),
-              onTap: () {
-                _handleClickCapture();
-              },
+              accessoryView: Row(children: [
+                CupertinoButton(
+                  child: const Text('region'),
+                  onPressed: () {
+                    _handleClickCapture(CaptureMode.region);
+                  },
+                ),
+                CupertinoButton(
+                  child: const Text('screen'),
+                  onPressed: () {
+                    _handleClickCapture(CaptureMode.screen);
+                  },
+                ),
+                CupertinoButton(
+                  child: const Text('window'),
+                  onPressed: () {
+                    _handleClickCapture(CaptureMode.window);
+                  },
+                ),
+              ]),
             ),
           ],
         ),

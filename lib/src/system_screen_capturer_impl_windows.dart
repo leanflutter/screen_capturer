@@ -4,6 +4,7 @@ import 'package:ffi/ffi.dart';
 import 'package:flutter/services.dart';
 import 'package:win32/win32.dart';
 
+import 'capture_mode.dart';
 import 'system_screen_capturer.dart';
 
 bool _isScreenClipping() {
@@ -66,6 +67,7 @@ class SystemScreenCapturerImplWindows extends SystemScreenCapturer {
   @override
   Future<void> capture({
     required String imagePath,
+    CaptureMode mode = CaptureMode.region,
     bool silent = true,
   }) async {
     await Clipboard.setData(const ClipboardData(text: ''));

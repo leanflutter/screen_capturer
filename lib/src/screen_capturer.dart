@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'capture_mode.dart';
 import 'captured_data.dart';
 import 'system_screen_capturer_impl_linux.dart';
 import 'system_screen_capturer_impl_macos.dart';
@@ -51,6 +52,7 @@ class ScreenCapturer {
 
   Future<CapturedData?> capture({
     String? imagePath,
+    CaptureMode mode = CaptureMode.region,
     bool silent = true,
   }) async {
     if (imagePath == null) throw ArgumentError.notNull('imagePath');
@@ -59,6 +61,7 @@ class ScreenCapturer {
       imageFile.parent.create(recursive: true);
     }
     await _systemScreenCapturer.capture(
+      mode: mode,
       imagePath: imagePath,
       silent: silent,
     );
