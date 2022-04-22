@@ -8,7 +8,7 @@
 [discord-image]: https://img.shields.io/discord/884679008049037342.svg
 [discord-url]: https://discord.gg/zPa6EZ2jqb
 
-这个插件允许 Flutter **桌面** 应用程序进行屏幕截图。
+这个插件允许 Flutter 桌面应用程序进行屏幕截图。
 
 ---
 
@@ -47,7 +47,7 @@
 
 ```yaml
 dependencies:
-  screen_capturer: ^0.1.0
+  screen_capturer: ^0.1.1
 ```
 
 或
@@ -65,7 +65,8 @@ dependencies:
 ```dart
 import 'package:screen_capturer/screen_capturer.dart';
 
-CapturedData? capturedData = await ScreenCapturer.instance.capture(
+CapturedData? capturedData = await screenCapturer.capture(
+  mode: CaptureMode.region, // screen, window
   imagePath: '<path>',
 );
 ```
@@ -80,7 +81,7 @@ CapturedData? capturedData = await ScreenCapturer.instance.capture(
 | -------- | ------------------------------------------ | ----- | ----- | ------- |
 | `region` | 在对象周围拖动光标以形成一个矩形。         | ✔️     | ✔️     | ✔️       |
 | `screen` | 捕获整个屏幕。                             | ✔️     | ✔️     | ➖       |
-| `window` | 选择要捕获的窗口。 （linux只捕获当前窗口） | ➖     | ✔️     | ✔️       |
+| `window` | 选择要捕获的窗口。（linux只捕获当前窗口） | ➖     | ✔️     | ✔️       |
 
 ## 谁在用使用它？
 

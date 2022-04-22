@@ -8,7 +8,7 @@
 [discord-image]: https://img.shields.io/discord/884679008049037342.svg
 [discord-url]: https://discord.gg/zPa6EZ2jqb
 
-This plugin allows Flutter **desktop** apps to take screenshots.
+This plugin allows Flutter desktop apps to take screenshots.
 
 ---
 
@@ -47,7 +47,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  screen_capturer: ^0.1.0
+  screen_capturer: ^0.1.1
 ```
 
 Or
@@ -66,6 +66,7 @@ dependencies:
 import 'package:screen_capturer/screen_capturer.dart';
 
 CapturedData? capturedData = await screenCapturer.capture(
+  mode: CaptureMode.region, // screen, window
   imagePath: '<path>',
 );
 ```
