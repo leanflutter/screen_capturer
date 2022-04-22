@@ -24,6 +24,8 @@ English | [简体中文](./README-ZH.md)
   - [Quick Start](#quick-start)
     - [Installation](#installation)
     - [Usage](#usage)
+  - [Platform Differences](#platform-differences)
+    - [CaptureMode](#capturemode)
   - [Who's using it?](#whos-using-it)
   - [License](#license)
 
@@ -63,12 +65,22 @@ dependencies:
 ```dart
 import 'package:screen_capturer/screen_capturer.dart';
 
-CapturedData? capturedData = await ScreenCapturer.instance.capture(
+CapturedData? capturedData = await screenCapturer.capture(
   imagePath: '<path>',
 );
 ```
 
 > Please see the example app of this plugin for a full example.
+
+## Platform Differences
+
+### CaptureMode
+
+| Name     | Description                                                                        | Linux | macOS | Windows |
+| -------- | ---------------------------------------------------------------------------------- | ----- | ----- | ------- |
+| `region` | Drag the cursor around an object to form a rectangle.                              | ✔️     | ✔️     | ✔️       |
+| `screen` | Capture the entire screen.                                                         | ✔️     | ✔️     | ➖       |
+| `window` | Select a window, that you want to capture. (linux capture only the current window) | ➖     | ✔️     | ✔️       |
 
 ## Who's using it?
 

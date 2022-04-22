@@ -24,6 +24,8 @@
   - [快速开始](#快速开始)
     - [安装](#安装)
     - [用法](#用法)
+  - [平台差异](#平台差异)
+    - [CaptureMode](#capturemode)
   - [谁在用使用它？](#谁在用使用它)
   - [许可证](#许可证)
 
@@ -69,6 +71,16 @@ CapturedData? capturedData = await ScreenCapturer.instance.capture(
 ```
 
 > 请看这个插件的示例应用，以了解完整的例子。
+
+## 平台差异
+
+### CaptureMode
+
+| Name     | Description                                | Linux | macOS | Windows |
+| -------- | ------------------------------------------ | ----- | ----- | ------- |
+| `region` | 在对象周围拖动光标以形成一个矩形。         | ✔️     | ✔️     | ✔️       |
+| `screen` | 捕获整个屏幕。                             | ✔️     | ✔️     | ➖       |
+| `window` | 选择要捕获的窗口。 （linux只捕获当前窗口） | ➖     | ✔️     | ✔️       |
 
 ## 谁在用使用它？
 
