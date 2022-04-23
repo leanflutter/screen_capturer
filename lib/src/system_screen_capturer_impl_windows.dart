@@ -77,6 +77,8 @@ class SystemScreenCapturerImplWindows extends SystemScreenCapturer {
     bool silent = true,
   }) async {
     if (mode == CaptureMode.screen) {
+      await captureScreen(imagePath: imagePath);
+      return;
       throw UnsupportedError('capture screen');
     }
     await Clipboard.setData(const ClipboardData(text: ''));
@@ -96,6 +98,14 @@ class SystemScreenCapturerImplWindows extends SystemScreenCapturer {
     }
 
     await methodChannel.invokeMethod('saveClipboardImageAsPngFile', {
+      'imagePath': imagePath,
+    });
+  }
+
+  Future<void> captureScreen({
+    required String imagePath,
+  }) async {
+    await methodChannel.invokeMethod('captureScreen', {
       'imagePath': imagePath,
     });
   }

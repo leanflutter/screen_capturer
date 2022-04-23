@@ -6,7 +6,7 @@
 
 #include <cstring>
 
-#define SCREEN_CAPTURER_PLUGIN(obj) \
+#define SCREEN_CAPTURER_PLUGIN(obj)                                     \
   (G_TYPE_CHECK_INSTANCE_CAST((obj), screen_capturer_plugin_get_type(), \
                               ScreenCapturerPlugin))
 
@@ -27,7 +27,7 @@ static void screen_capturer_plugin_handle_method_call(
   if (strcmp(method, "getPlatformVersion") == 0) {
     struct utsname uname_data = {};
     uname(&uname_data);
-    g_autofree gchar *version = g_strdup_printf("Linux %s", uname_data.version);
+    g_autofree gchar* version = g_strdup_printf("Linux %s", uname_data.version);
     g_autoptr(FlValue) result = fl_value_new_string(version);
     response = FL_METHOD_RESPONSE(fl_method_success_response_new(result));
   } else {
@@ -41,30 +41,31 @@ static void screen_capturer_plugin_dispose(GObject* object) {
   G_OBJECT_CLASS(screen_capturer_plugin_parent_class)->dispose(object);
 }
 
-static void screen_capturer_plugin_class_init(ScreenCapturerPluginClass* klass) {
+static void screen_capturer_plugin_class_init(
+    ScreenCapturerPluginClass* klass) {
   G_OBJECT_CLASS(klass)->dispose = screen_capturer_plugin_dispose;
 }
 
 static void screen_capturer_plugin_init(ScreenCapturerPlugin* self) {}
 
-static void method_call_cb(FlMethodChannel* channel, FlMethodCall* method_call,
+static void method_call_cb(FlMethodChannel* channel,
+                           FlMethodCall* method_call,
                            gpointer user_data) {
   ScreenCapturerPlugin* plugin = SCREEN_CAPTURER_PLUGIN(user_data);
   screen_capturer_plugin_handle_method_call(plugin, method_call);
 }
 
-void screen_capturer_plugin_register_with_registrar(FlPluginRegistrar* registrar) {
+void screen_capturer_plugin_register_with_registrar(
+    FlPluginRegistrar* registrar) {
   ScreenCapturerPlugin* plugin = SCREEN_CAPTURER_PLUGIN(
       g_object_new(screen_capturer_plugin_get_type(), nullptr));
 
   g_autoptr(FlStandardMethodCodec) codec = fl_standard_method_codec_new();
   g_autoptr(FlMethodChannel) channel =
       fl_method_channel_new(fl_plugin_registrar_get_messenger(registrar),
-                            "screen_capturer",
-                            FL_METHOD_CODEC(codec));
-  fl_method_channel_set_method_call_handler(channel, method_call_cb,
-                                            g_object_ref(plugin),
-                                            g_object_unref);
+                            "screen_capturer", FL_METHOD_CODEC(codec));
+  fl_method_channel_set_method_call_handler(
+      channel, method_call_cb, g_object_ref(plugin), g_object_unref);
 
   g_object_unref(plugin);
 }
