@@ -47,7 +47,7 @@
 
 ```yaml
 dependencies:
-  screen_capturer: ^0.1.1
+  screen_capturer: ^0.1.2
 ```
 
 或
@@ -80,7 +80,7 @@ CapturedData? capturedData = await screenCapturer.capture(
 | Name     | Description                                | Linux | macOS | Windows |
 | -------- | ------------------------------------------ | ----- | ----- | ------- |
 | `region` | 在对象周围拖动光标以形成一个矩形。         | ✔️     | ✔️     | ✔️       |
-| `screen` | 捕获整个屏幕。                             | ✔️     | ✔️     | ➖       |
+| `screen` | 捕获整个屏幕。                             | ✔️     | ✔️     | ✔️       |
 | `window` | 选择要捕获的窗口。（linux只捕获当前窗口） | ➖     | ✔️     | ✔️       |
 
 ## 谁在用使用它？

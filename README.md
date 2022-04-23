@@ -47,7 +47,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  screen_capturer: ^0.1.1
+  screen_capturer: ^0.1.2
 ```
 
 Or
@@ -80,7 +80,7 @@ CapturedData? capturedData = await screenCapturer.capture(
 | Name     | Description                                                                        | Linux | macOS | Windows |
 | -------- | ---------------------------------------------------------------------------------- | ----- | ----- | ------- |
 | `region` | Drag the cursor around an object to form a rectangle.                              | ✔️     | ✔️     | ✔️       |
-| `screen` | Capture the entire screen.                                                         | ✔️     | ✔️     | ➖       |
+| `screen` | Capture the entire screen.                                                         | ✔️     | ✔️     | ✔️       |
 | `window` | Select a window, that you want to capture. (linux capture only the current window) | ➖     | ✔️     | ✔️       |
 
 ## Who's using it?
