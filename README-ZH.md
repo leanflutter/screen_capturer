@@ -24,6 +24,7 @@
   - [快速开始](#快速开始)
     - [安装](#安装)
     - [用法](#用法)
+    - [macOS](#macos)
   - [平台差异](#平台差异)
     - [CaptureMode](#capturemode)
   - [谁在用使用它？](#谁在用使用它)
@@ -61,6 +62,25 @@ dependencies:
 ```
 
 ### 用法
+
+### macOS
+
+更改文件  `ios/Runner/DebugProfile.entitlements` 或 `ios/Runner/Release.entitlements` 如下：
+
+> 仅在沙盒模式下需要。
+
+```diff
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
++	<key>com.apple.security.temporary-exception.mach-register.global-name</key>
++	<string>com.apple.screencapture.interactive</string>
+</dict>
+</plist>
+```
 
 ```dart
 import 'package:screen_capturer/screen_capturer.dart';

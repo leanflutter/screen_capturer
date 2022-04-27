@@ -24,6 +24,7 @@ English | [简体中文](./README-ZH.md)
   - [Quick Start](#quick-start)
     - [Installation](#installation)
     - [Usage](#usage)
+    - [macOS](#macos)
   - [Platform Differences](#platform-differences)
     - [CaptureMode](#capturemode)
   - [Who's using it?](#whos-using-it)
@@ -61,6 +62,25 @@ dependencies:
 ```
 
 ### Usage
+
+### macOS
+
+Change the file `ios/Runner/DebugProfile.entitlements` or `ios/Runner/Release.entitlements` as follows:
+
+> Required only for sandbox mode.
+
+```diff
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
++	<key>com.apple.security.temporary-exception.mach-register.global-name</key>
++	<string>com.apple.screencapture.interactive</string>
+</dict>
+</plist>
+```
 
 ```dart
 import 'package:screen_capturer/screen_capturer.dart';
