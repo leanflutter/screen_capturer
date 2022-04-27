@@ -38,8 +38,6 @@ English | [简体中文](./README-ZH.md)
 | :---: | :---: | :-----: |
 |   ✔️   |   ✔️   |    ✔️    |
 
-> ⚠️ macOS only supports non-sandbox mode.
-
 ## Quick Start
 
 ### Installation
