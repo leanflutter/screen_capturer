@@ -25,6 +25,7 @@
   - [平台支持](#平台支持)
   - [快速开始](#快速开始)
     - [安装](#安装)
+      - [Windows requirements](#windows-requirements)
     - [用法](#用法)
     - [macOS](#macos)
   - [平台差异](#平台差异)
@@ -60,6 +61,10 @@ dependencies:
       url: https://github.com/leanflutter/screen_capturer.git
       ref: main
 ```
+
+#### Windows requirements
+
+请务必修改你的 Visual Studio 安装，并确保 **"C++ ATL for latest v142 build tools (x86 & x64)"** 已安装
 
 ### 用法
 
