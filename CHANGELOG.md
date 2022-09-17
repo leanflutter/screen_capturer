@@ -1,6 +1,10 @@
+## 0.1.3
+
+* bump flutter to 3.3.2
+
 ## 0.1.2
 
-[windows] Support capture the entire screen #3
+* [windows] Support capture the entire screen #3
 
 ## 0.1.1
 
