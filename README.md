@@ -70,7 +70,7 @@ Be sure to modify your Visual Studio installation and ensure that **"C++ ATL for
 
 ### macOS
 
-Change the file `ios/Runner/DebugProfile.entitlements` or `ios/Runner/Release.entitlements` as follows:
+Change the file `macos/Runner/DebugProfile.entitlements` or `macos/Runner/Release.entitlements` as follows:
 
 > Required only for sandbox mode.
 

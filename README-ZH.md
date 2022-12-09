@@ -70,7 +70,7 @@ dependencies:
 
 ### macOS
 
-更改文件  `ios/Runner/DebugProfile.entitlements` 或 `ios/Runner/Release.entitlements` 如下：
+更改文件  `macos/Runner/DebugProfile.entitlements` 或 `macos/Runner/Release.entitlements` 如下：
 
 > 仅在沙盒模式下需要。
 
