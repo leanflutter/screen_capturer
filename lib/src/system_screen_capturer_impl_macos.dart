@@ -14,14 +14,16 @@ class SystemScreenCapturerImplMacOS extends SystemScreenCapturer {
 
   @override
   Future<void> capture({
-    required String imagePath,
-    CaptureMode mode = CaptureMode.region,
+    required CaptureMode mode,
+    String? imagePath,
+    OnCapturedEventHandler? onCaptured,
+    bool copyToClipboard = true,
     bool silent = true,
   }) async {
     List<String> arguments = [
       ..._knownCaptureModeArgs[mode]!,
       silent ? '-x' : '',
-      imagePath,
+      imagePath ?? '',
     ];
     arguments.removeWhere((e) => e.isEmpty);
 

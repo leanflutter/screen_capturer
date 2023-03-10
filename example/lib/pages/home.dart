@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
         '${directory.path}/screen_capturer_example/Screenshots/$imageName';
     _lastCapturedData = await ScreenCapturer.instance.capture(
       mode: mode,
-      imagePath: imagePath,
+      imagePath: null,
       silent: true,
     );
     if (_lastCapturedData != null) {
@@ -106,15 +106,19 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        if (_lastCapturedData != null && _lastCapturedData?.imagePath != null)
-          Container(
-            margin: const EdgeInsets.only(top: 20),
-            width: 400,
-            height: 400,
-            child: Image.file(
-              File(_lastCapturedData!.imagePath!),
-            ),
-          ),
+        // if (_lastCapturedData != null && _lastCapturedData?.imagePath != null)
+        Container(
+          margin: const EdgeInsets.only(top: 20),
+          width: 400,
+          height: 400,
+          child:
+              _lastCapturedData == null || _lastCapturedData!.pngBytes == null
+                  ? const Center(child: Text('Empty'))
+                  : Image.memory(_lastCapturedData!.pngBytes!),
+          // Image.file(
+          //   File(_lastCapturedData!.imagePath!),
+          // ),
+        ),
       ],
     );
   }

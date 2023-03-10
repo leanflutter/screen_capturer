@@ -50,32 +50,42 @@ class ScreenCapturer {
     }
   }
 
-  Future<CapturedData?> capture({
-    String? imagePath,
-    CaptureMode mode = CaptureMode.region,
-    bool silent = true,
-  }) async {
-    if (imagePath == null) throw ArgumentError.notNull('imagePath');
-    File imageFile = File(imagePath);
-    if (!imageFile.parent.existsSync()) {
-      imageFile.parent.create(recursive: true);
+  Future<CapturedData?> capture(
+      {String? imagePath,
+      CaptureMode mode = CaptureMode.region,
+      bool silent = true,
+      bool copyToClipboard = true}) async {
+    File? imageFile;
+    if (imagePath != null) {
+      File imageFile = File(imagePath);
+      if (!imageFile.parent.existsSync()) {
+        imageFile.parent.create(recursive: true);
+      }
     }
-    await _systemScreenCapturer.capture(
-      mode: mode,
-      imagePath: imagePath,
-      silent: silent,
-    );
-    if (imageFile.existsSync()) {
-      Uint8List imageBytes = imageFile.readAsBytesSync();
-      final decodedImage = await decodeImageFromList(imageBytes);
+    var capturedData = CapturedData();
 
-      return CapturedData(
+    await _systemScreenCapturer.capture(
+        mode: mode,
         imagePath: imagePath,
-        imageWidth: decodedImage.width,
-        imageHeight: decodedImage.height,
-        base64Image: base64Encode(imageBytes),
-      );
+        silent: silent,
+        copyToClipboard: copyToClipboard,
+        onCaptured: (buffer) {
+          capturedData.pngBytes = buffer;
+        });
+
+    //need save to file
+    if (imagePath != null && imageFile != null) {
+      if (imageFile.existsSync()) {
+        Uint8List imageBytes = imageFile.readAsBytesSync();
+        final decodedImage = await decodeImageFromList(imageBytes);
+
+        capturedData.imagePath = imagePath;
+        capturedData.imageWidth = decodedImage.width;
+        capturedData.imageHeight = decodedImage.height;
+        capturedData.base64Image = base64Encode(imageBytes);
+      }
     }
-    return null;
+
+    return capturedData;
   }
 }

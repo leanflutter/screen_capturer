@@ -72,15 +72,22 @@ class SystemScreenCapturerImplWindows extends SystemScreenCapturer {
 
   @override
   Future<void> capture({
-    required String imagePath,
-    CaptureMode mode = CaptureMode.region,
+    required CaptureMode mode,
+    String? imagePath,
+    OnCapturedEventHandler? onCaptured,
+    bool copyToClipboard = true,
     bool silent = true,
   }) async {
     if (mode == CaptureMode.screen) {
-      await captureScreen(imagePath: imagePath);
+      var ret = await captureScreen(imagePath: imagePath);
+      if (onCaptured != null) {
+        onCaptured(ret);
+      }
+      //TODO: 区域截图默认就是会复制到剪切板的，但是全屏截图不会。如果指定了拷贝到剪切板，应该也把全屏截到的图放在剪切板。
+      //另外，是否有需求需要不使用剪切板的区域截图？
       return;
-      throw UnsupportedError('capture screen');
     }
+
     await Clipboard.setData(const ClipboardData(text: ''));
     ShellExecute(
       0,
@@ -102,11 +109,12 @@ class SystemScreenCapturerImplWindows extends SystemScreenCapturer {
     });
   }
 
-  Future<void> captureScreen({
-    required String imagePath,
+  Future<Uint8List> captureScreen({
+    String? imagePath,
   }) async {
-    await methodChannel.invokeMethod('captureScreen', {
+    var ret = await methodChannel.invokeMethod('captureScreen', {
       'imagePath': imagePath,
     });
+    return ret as Uint8List;
   }
 }

@@ -14,8 +14,10 @@ class SystemScreenCapturerImplLinux extends SystemScreenCapturer {
 
   @override
   Future<void> capture({
-    required String imagePath,
-    CaptureMode mode = CaptureMode.region,
+    required CaptureMode mode,
+    String? imagePath,
+    OnCapturedEventHandler? onCaptured,
+    bool copyToClipboard = true,
     bool silent = true,
   }) async {
     await Process.run(
@@ -23,7 +25,7 @@ class SystemScreenCapturerImplLinux extends SystemScreenCapturer {
       [
         ..._knownCaptureModeArgs[mode]!,
         '-f',
-        imagePath,
+        imagePath ?? '',
       ],
     );
   }
