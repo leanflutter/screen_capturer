@@ -71,6 +71,7 @@ class ScreenCapturer {
         copyToClipboard: copyToClipboard,
         onCaptured: (buffer) {
           capturedData.pngBytes = buffer;
+          capturedData.base64Image = base64Encode(buffer);
         });
 
     //need save to file
@@ -82,7 +83,6 @@ class ScreenCapturer {
         capturedData.imagePath = imagePath;
         capturedData.imageWidth = decodedImage.width;
         capturedData.imageHeight = decodedImage.height;
-        capturedData.base64Image = base64Encode(imageBytes);
       }
     }
 
