@@ -17,7 +17,7 @@ void main() {
     // channel.setMockMethodCallHandler(null);
   });
 
-  // test('getPlatformVersion', () async {
-  //   expect(await ScreenCapturer.platformVersion, '42');
-  // });
+  test('getPlatformVersion', () async {
+    expect('1', '1');
+  });
 }

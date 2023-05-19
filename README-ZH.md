@@ -1,14 +1,11 @@
 # screen_capturer
 
-[![pub version][pub-image]][pub-url] [![][discord-image]][discord-url] ![][visits-count-image] 
+[![pub version][pub-image]][pub-url] [![][discord-image]][discord-url]
 
 [pub-image]: https://img.shields.io/pub/v/screen_capturer.svg
 [pub-url]: https://pub.dev/packages/screen_capturer
-
 [discord-image]: https://img.shields.io/discord/884679008049037342.svg
 [discord-url]: https://discord.gg/zPa6EZ2jqb
-
-[visits-count-image]: https://img.shields.io/badge/dynamic/json?label=Visits%20Count&query=value&url=https://api.countapi.xyz/hit/leanflutter.screen_capturer/visits
 
 这个插件允许 Flutter 桌面应用程序进行屏幕截图。
 
@@ -39,7 +36,7 @@
 
 | Linux | macOS | Windows |
 | :---: | :---: | :-----: |
-|   ✔️   |   ✔️   |    ✔️    |
+|  ✔️   |  ✔️   |   ✔️    |
 
 ## 快速开始
 
@@ -49,7 +46,7 @@
 
 ```yaml
 dependencies:
-  screen_capturer: ^0.1.3
+  screen_capturer: ^0.1.4
 ```
 
 或
@@ -70,7 +67,7 @@ dependencies:
 
 ### macOS
 
-更改文件  `macos/Runner/DebugProfile.entitlements` 或 `macos/Runner/Release.entitlements` 如下：
+更改文件 `macos/Runner/DebugProfile.entitlements` 或 `macos/Runner/Release.entitlements` 如下：
 
 > 仅在沙盒模式下需要。
 
@@ -104,9 +101,9 @@ CapturedData? capturedData = await screenCapturer.capture(
 
 | Name     | Description                                | Linux | macOS | Windows |
 | -------- | ------------------------------------------ | ----- | ----- | ------- |
-| `region` | 在对象周围拖动光标以形成一个矩形。         | ✔️     | ✔️     | ✔️       |
-| `screen` | 捕获整个屏幕。                             | ✔️     | ✔️     | ✔️       |
-| `window` | 选择要捕获的窗口。（linux只捕获当前窗口） | ➖     | ✔️     | ✔️       |
+| `region` | 在对象周围拖动光标以形成一个矩形。         | ✔️    | ✔️    | ✔️      |
+| `screen` | 捕获整个屏幕。                             | ✔️    | ✔️    | ✔️      |
+| `window` | 选择要捕获的窗口。（linux 只捕获当前窗口） | ➖    | ✔️    | ✔️      |
 
 ## 谁在用使用它？
 

@@ -1,14 +1,11 @@
 # screen_capturer
 
-[![pub version][pub-image]][pub-url] [![][discord-image]][discord-url] ![][visits-count-image] 
+[![pub version][pub-image]][pub-url] [![][discord-image]][discord-url]
 
 [pub-image]: https://img.shields.io/pub/v/screen_capturer.svg
 [pub-url]: https://pub.dev/packages/screen_capturer
-
 [discord-image]: https://img.shields.io/discord/884679008049037342.svg
 [discord-url]: https://discord.gg/zPa6EZ2jqb
-
-[visits-count-image]: https://img.shields.io/badge/dynamic/json?label=Visits%20Count&query=value&url=https://api.countapi.xyz/hit/leanflutter.screen_capturer/visits
 
 This plugin allows Flutter desktop apps to take screenshots.
 
@@ -39,7 +36,7 @@ English | [简体中文](./README-ZH.md)
 
 | Linux | macOS | Windows |
 | :---: | :---: | :-----: |
-|   ✔️   |   ✔️   |    ✔️    |
+|  ✔️   |  ✔️   |   ✔️    |
 
 ## Quick Start
 
@@ -49,7 +46,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  screen_capturer: ^0.1.3
+  screen_capturer: ^0.1.4
 ```
 
 Or
@@ -104,9 +101,9 @@ CapturedData? capturedData = await screenCapturer.capture(
 
 | Name     | Description                                                                        | Linux | macOS | Windows |
 | -------- | ---------------------------------------------------------------------------------- | ----- | ----- | ------- |
-| `region` | Drag the cursor around an object to form a rectangle.                              | ✔️     | ✔️     | ✔️       |
-| `screen` | Capture the entire screen.                                                         | ✔️     | ✔️     | ✔️       |
-| `window` | Select a window, that you want to capture. (linux capture only the current window) | ➖     | ✔️     | ✔️       |
+| `region` | Drag the cursor around an object to form a rectangle.                              | ✔️    | ✔️    | ✔️      |
+| `screen` | Capture the entire screen.                                                         | ✔️    | ✔️    | ✔️      |
+| `window` | Select a window, that you want to capture. (linux capture only the current window) | ➖    | ✔️    | ✔️      |
 
 ## Who's using it?
 
