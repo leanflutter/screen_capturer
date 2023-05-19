@@ -79,7 +79,6 @@ class SystemScreenCapturerImplWindows extends SystemScreenCapturer {
     if (mode == CaptureMode.screen) {
       await captureScreen(imagePath: imagePath);
       return;
-      throw UnsupportedError('capture screen');
     }
     await Clipboard.setData(const ClipboardData(text: ''));
     ShellExecute(

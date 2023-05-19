@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,16 +10,17 @@ import 'capture_mode.dart';
 import 'captured_data.dart';
 import 'system_screen_capturer_impl_linux.dart';
 import 'system_screen_capturer_impl_macos.dart';
-import 'system_screen_capturer_impl_windows.dart';
 import 'system_screen_capturer.dart';
+import 'system_screen_capturer_impl_windows.dart'
+    if (dart.library.html) 'system_screen_capturer_impl_windows_noop.dart';
 
 class ScreenCapturer {
   ScreenCapturer._() {
-    if (Platform.isLinux) {
+    if (!kIsWeb && Platform.isLinux) {
       _systemScreenCapturer = SystemScreenCapturerImplLinux();
-    } else if (Platform.isMacOS) {
+    } else if (!kIsWeb && Platform.isMacOS) {
       _systemScreenCapturer = SystemScreenCapturerImplMacOS();
-    } else if (Platform.isWindows) {
+    } else if (!kIsWeb && Platform.isWindows) {
       _systemScreenCapturer = SystemScreenCapturerImplWindows(_channel);
     }
   }
