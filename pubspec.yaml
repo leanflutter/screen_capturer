@@ -8,6 +8,9 @@ platforms:
   macos:
   windows:
 
+topics:
+  - screenshot
+
 environment:
   sdk: ">=2.16.0 <3.0.0"
   flutter: ">=3.3.0"

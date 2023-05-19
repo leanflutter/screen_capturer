@@ -1,3 +1,8 @@
+## 0.1.4
+
+* bump flutter to 3.10.1
+* feat: Compile to web support
+
 ## 0.1.3
 
 * bump flutter to 3.3.2
