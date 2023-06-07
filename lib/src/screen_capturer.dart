@@ -1,17 +1,15 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import 'capture_mode.dart';
-import 'captured_data.dart';
-import 'system_screen_capturer_impl_linux.dart';
-import 'system_screen_capturer_impl_macos.dart';
-import 'system_screen_capturer.dart';
-import 'system_screen_capturer_impl_windows.dart'
+import 'package:screen_capturer/src/capture_mode.dart';
+import 'package:screen_capturer/src/captured_data.dart';
+import 'package:screen_capturer/src/screen_capturer_platform_interface.dart';
+import 'package:screen_capturer/src/system_screen_capturer.dart';
+import 'package:screen_capturer/src/system_screen_capturer_impl_linux.dart';
+import 'package:screen_capturer/src/system_screen_capturer_impl_macos.dart';
+import 'package:screen_capturer/src/system_screen_capturer_impl_windows.dart'
     if (dart.library.html) 'system_screen_capturer_impl_windows_noop.dart';
 
 class ScreenCapturer {
@@ -21,35 +19,41 @@ class ScreenCapturer {
     } else if (!kIsWeb && Platform.isMacOS) {
       _systemScreenCapturer = SystemScreenCapturerImplMacOS();
     } else if (!kIsWeb && Platform.isWindows) {
-      _systemScreenCapturer = SystemScreenCapturerImplWindows(_channel);
+      _systemScreenCapturer = SystemScreenCapturerImplWindows();
     }
   }
 
   /// The shared instance of [ScreenCapturer].
   static final ScreenCapturer instance = ScreenCapturer._();
 
-  final MethodChannel _channel = const MethodChannel('screen_capturer');
-
   late SystemScreenCapturer _systemScreenCapturer;
 
-  Future<bool> isAccessAllowed() async {
-    if (!kIsWeb && Platform.isMacOS) {
-      return await _channel.invokeMethod('isAccessAllowed');
-    }
-    return true;
+  /// Checks whether the current process already has screen capture access
+  ///
+  /// macOS only
+  Future<bool> isAccessAllowed() {
+    return ScreenCapturerPlatform.instance.isAccessAllowed();
   }
 
-  Future<void> requestAccess({
-    bool onlyOpenPrefPane = false,
-  }) async {
-    if (!kIsWeb && Platform.isMacOS) {
-      final Map<String, dynamic> arguments = {
-        'onlyOpenPrefPane': onlyOpenPrefPane,
-      };
-      await _channel.invokeMethod('requestAccess', arguments);
-    }
+  /// Requests screen capture access
+  ///
+  /// macOS only
+  Future<void> requestAccess({bool onlyOpenPrefPane = false}) {
+    return ScreenCapturerPlatform.instance.requestAccess(
+      onlyOpenPrefPane: onlyOpenPrefPane,
+    );
   }
 
+  /// Reads an image from the clipboard
+  ///
+  /// Returns a [Uint8List] object
+  Future<Uint8List?> readImageFromClipboard() {
+    return ScreenCapturerPlatform.instance.readImageFromClipboard();
+  }
+
+  /// Captures the screen and saves it to the specified [imagePath]
+  ///
+  /// Returns a [CapturedData] object with the image path, width, height and base64 encoded image
   Future<CapturedData?> capture({
     String? imagePath,
     CaptureMode mode = CaptureMode.region,
@@ -73,9 +77,12 @@ class ScreenCapturer {
         imagePath: imagePath,
         imageWidth: decodedImage.width,
         imageHeight: decodedImage.height,
-        base64Image: base64Encode(imageBytes),
+        imageBytes: imageBytes,
       );
     }
     return null;
   }
 }
+
+/// The shared instance of [ScreenCapturer].
+final screenCapturer = ScreenCapturer.instance;

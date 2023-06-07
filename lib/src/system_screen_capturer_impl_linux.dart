@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'capture_mode.dart';
-import 'system_screen_capturer.dart';
+import 'package:screen_capturer/src/capture_mode.dart';
+import 'package:screen_capturer/src/system_screen_capturer.dart';
 
 final Map<CaptureMode, List<String>> _knownCaptureModeArgs = {
   CaptureMode.region: ['-a'],

@@ -19,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   bool _isAccessAllowed = false;
 
   CapturedData? _lastCapturedData;
+  Uint8List? _imageBytesFromClipboard;
 
   @override
   void initState() {
@@ -27,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _init() async {
-    _isAccessAllowed = await ScreenCapturer.instance.isAccessAllowed();
+    _isAccessAllowed = await screenCapturer.isAccessAllowed();
 
     setState(() {});
   }
@@ -38,7 +39,7 @@ class _HomePageState extends State<HomePage> {
         'Screenshot-${DateTime.now().millisecondsSinceEpoch}.png';
     String imagePath =
         '${directory.path}/screen_capturer_example/Screenshots/$imageName';
-    _lastCapturedData = await ScreenCapturer.instance.capture(
+    _lastCapturedData = await screenCapturer.capture(
       mode: mode,
       imagePath: imagePath,
       silent: true,
@@ -63,8 +64,7 @@ class _HomePageState extends State<HomePage> {
                 title: const Text('isAccessAllowed'),
                 accessoryView: Text('$_isAccessAllowed'),
                 onTap: () async {
-                  bool allowed =
-                      await ScreenCapturer.instance.isAccessAllowed();
+                  bool allowed = await screenCapturer.isAccessAllowed();
                   BotToast.showText(text: 'allowed: $allowed');
                   setState(() {
                     _isAccessAllowed = allowed;
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
               PreferenceListItem(
                 title: const Text('requestAccess'),
                 onTap: () async {
-                  await ScreenCapturer.instance.requestAccess();
+                  await screenCapturer.requestAccess();
                 },
               ),
             ],
@@ -82,6 +82,14 @@ class _HomePageState extends State<HomePage> {
         PreferenceListSection(
           title: const Text('METHODS'),
           children: [
+            PreferenceListItem(
+              title: const Text('readImageFromClipboard'),
+              onTap: () async {
+                _imageBytesFromClipboard =
+                    await screenCapturer.readImageFromClipboard();
+                setState(() {});
+              },
+            ),
             PreferenceListItem(
               title: const Text('capture'),
               accessoryView: Row(children: [
@@ -114,6 +122,15 @@ class _HomePageState extends State<HomePage> {
             height: 400,
             child: Image.file(
               File(_lastCapturedData!.imagePath!),
+            ),
+          ),
+        if (_imageBytesFromClipboard != null)
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            width: 400,
+            height: 400,
+            child: Image.memory(
+              _imageBytesFromClipboard!,
             ),
           ),
       ],

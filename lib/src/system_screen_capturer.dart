@@ -1,4 +1,4 @@
-import 'capture_mode.dart';
+import 'package:screen_capturer/src/capture_mode.dart';
 
 class SystemScreenCapturer {
   Future<void> capture({

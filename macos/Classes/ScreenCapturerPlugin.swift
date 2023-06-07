@@ -16,6 +16,9 @@ public class ScreenCapturerPlugin: NSObject, FlutterPlugin {
         case "requestAccess":
             requestAccess(call, result: result)
             break
+        case "readImageFromClipboard":
+            readImageFromClipboard(call, result: result)
+            break
         default:
             result(FlutterMethodNotImplemented)
         }
@@ -46,4 +49,23 @@ public class ScreenCapturerPlugin: NSObject, FlutterPlugin {
         result(true)
     }
     
+    public func readImageFromClipboard(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        guard let image = NSPasteboard.general.readObjects(forClasses: [NSImage.self], options: nil)?.first as? NSImage else {
+            result(nil)
+            return
+        }
+        result(image.png)
+    }
+}
+
+extension NSBitmapImageRep {
+    var png: Data? { representation(using: .png, properties: [:]) }
+}
+
+extension Data {
+    var bitmap: NSBitmapImageRep? { NSBitmapImageRep(data: self) }
+}
+
+extension NSImage {
+    var png: Data? { tiffRepresentation?.bitmap?.png }
 }

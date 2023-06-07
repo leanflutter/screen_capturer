@@ -12,20 +12,20 @@ topics:
   - screenshot
 
 environment:
-  sdk: ">=2.16.0 <4.0.0"
+  sdk: ">=2.18.0 <4.0.0"
   flutter: ">=3.3.0"
 
 dependencies:
+  ffi: ^2.0.2
   flutter:
     sdk: flutter
-
-  ffi: ^2.0.2
-  win32: ">=2.6.0 <6.0.0"
+  plugin_platform_interface: ^2.0.2
+  win32: '>=2.6.0 <6.0.0'
 
 dev_dependencies:
+  flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
 
 flutter:
   plugin:

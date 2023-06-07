@@ -2,10 +2,11 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 import 'package:flutter/services.dart';
+import 'package:screen_capturer/screen_capturer.dart';
+import 'package:screen_capturer/src/capture_mode.dart';
+import 'package:screen_capturer/src/screen_capturer_platform_interface.dart';
+import 'package:screen_capturer/src/system_screen_capturer.dart';
 import 'package:win32/win32.dart';
-
-import 'capture_mode.dart';
-import 'system_screen_capturer.dart';
 
 final Map<CaptureMode, String> _knownCaptureModeArgs = {
   CaptureMode.region: 'Rectangle',
@@ -48,7 +49,7 @@ bool _isScreenClipping() {
         final hModule = hModules.elementAt(i).value;
         if (GetModuleFileNameEx(hProcess, hModule, szModName, MAX_PATH) != 0) {
           String moduleName = szModName.toDartString();
-          if (moduleName.contains("ScreenClippingHost.exe")) {
+          if (moduleName.contains('ScreenClippingHost.exe')) {
             free(szModName);
             return true;
           }
@@ -66,9 +67,7 @@ bool _isScreenClipping() {
 }
 
 class SystemScreenCapturerImplWindows extends SystemScreenCapturer {
-  final MethodChannel methodChannel;
-
-  SystemScreenCapturerImplWindows(this.methodChannel);
+  SystemScreenCapturerImplWindows();
 
   @override
   Future<void> capture({
@@ -96,16 +95,17 @@ class SystemScreenCapturerImplWindows extends SystemScreenCapturer {
       await Future.delayed(const Duration(milliseconds: 200));
     }
 
-    await methodChannel.invokeMethod('saveClipboardImageAsPngFile', {
-      'imagePath': imagePath,
-    });
+    // ignore: deprecated_member_use_from_same_package
+    await ScreenCapturerPlatform.instance.saveClipboardImageAsPngFile(
+      imagePath: imagePath,
+    );
   }
 
   Future<void> captureScreen({
     required String imagePath,
   }) async {
-    await methodChannel.invokeMethod('captureScreen', {
-      'imagePath': imagePath,
-    });
+    ScreenCapturerPlatform.instance.captureScreen(
+      imagePath: imagePath,
+    );
   }
 }
