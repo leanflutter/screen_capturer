@@ -16,6 +16,47 @@ struct _ScreenCapturerPlugin {
 
 G_DEFINE_TYPE(ScreenCapturerPlugin, screen_capturer_plugin, g_object_get_type())
 
+static void clipboard_request_image_callback(GtkClipboard* clipboard,
+                                             GdkPixbuf* pixbuf,
+                                             gpointer user_data) {
+  g_autoptr(FlMethodCall) method_call = static_cast<FlMethodCall*>(user_data);
+
+  if (!pixbuf) {
+    fl_method_call_respond_success(method_call, nullptr, nullptr);
+    return;
+  }
+
+  gchar* buffer = nullptr;
+  gsize buffer_size = 0;
+  GError* error = nullptr;
+
+  gdk_pixbuf_save_to_buffer(pixbuf, &buffer, &buffer_size, "png", &error,
+                            nullptr);
+  if (error) {
+    fl_method_call_respond_error(method_call, "0", error->message, nullptr,
+                                 nullptr);
+    return;
+  }
+
+  if (!buffer) {
+    fl_method_call_respond_error(method_call, "0", "failed to get image",
+                                 nullptr, nullptr);
+    return;
+  }
+
+  fl_method_call_respond_success(
+      method_call,
+      fl_value_new_uint8_list(reinterpret_cast<const uint8_t*>(buffer),
+                              buffer_size),
+      nullptr);
+}
+
+static void read_image_from_clipboard(FlMethodCall* method_call) {
+  auto* clipboard = gtk_clipboard_get_default(gdk_display_get_default());
+  gtk_clipboard_request_image(clipboard, clipboard_request_image_callback,
+                              g_object_ref(method_call));
+}
+
 // Called when a method call is received from Flutter.
 static void screen_capturer_plugin_handle_method_call(
     ScreenCapturerPlugin* self,
@@ -24,12 +65,9 @@ static void screen_capturer_plugin_handle_method_call(
 
   const gchar* method = fl_method_call_get_name(method_call);
 
-  if (strcmp(method, "getPlatformVersion") == 0) {
-    struct utsname uname_data = {};
-    uname(&uname_data);
-    g_autofree gchar* version = g_strdup_printf("Linux %s", uname_data.version);
-    g_autoptr(FlValue) result = fl_value_new_string(version);
-    response = FL_METHOD_RESPONSE(fl_method_success_response_new(result));
+  if (strcmp(method, "readImageFromClipboard") == 0) {
+    read_image_from_clipboard(method_call);
+    return;
   } else {
     response = FL_METHOD_RESPONSE(fl_method_not_implemented_response_new());
   }

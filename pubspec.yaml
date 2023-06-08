@@ -30,6 +30,8 @@ dev_dependencies:
 flutter:
   plugin:
     platforms:
+      linux:
+        pluginClass: ScreenCapturerPlugin
       macos:
         pluginClass: ScreenCapturerPlugin
       windows:
