@@ -1,3 +1,8 @@
+## 0.1.5
+
+* Add `readImageFromClipboard` method to read image from clipboard.
+* `capture` method supports copyToClipboard argument.
+
 ## 0.1.4
 
 * bump flutter to 3.10.1

@@ -46,7 +46,7 @@
 
 ```yaml
 dependencies:
-  screen_capturer: ^0.1.4
+  screen_capturer: ^0.1.5
 ```
 
 或
@@ -90,6 +90,7 @@ import 'package:screen_capturer/screen_capturer.dart';
 CapturedData? capturedData = await screenCapturer.capture(
   mode: CaptureMode.region, // screen, window
   imagePath: '<path>',
+  copyToClipboard: true,
 );
 ```
 
