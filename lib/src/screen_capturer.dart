@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:screen_capturer/src/capture_mode.dart';
 import 'package:screen_capturer/src/captured_data.dart';
 import 'package:screen_capturer/src/screen_capturer_platform_interface.dart';
@@ -66,6 +67,10 @@ class ScreenCapturer {
       if (!imageFile.parent.existsSync()) {
         imageFile.parent.create(recursive: true);
       }
+    }
+    if (copyToClipboard) {
+      // 如果是复制到剪切板，先清空剪切板，避免结果不正确
+      Clipboard.setData(const ClipboardData(text: ''));
     }
     await _systemScreenCapturer.capture(
       mode: mode,
