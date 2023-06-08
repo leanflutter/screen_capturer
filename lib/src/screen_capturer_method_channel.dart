@@ -34,7 +34,8 @@ class MethodChannelScreenCapturer extends ScreenCapturerPlatform {
   Future<Uint8List?> readImageFromClipboard() async {
     final image = await methodChannel.invokeMethod('readImageFromClipboard');
     if (image != null) {
-      if (!kIsWeb && (Platform.isMacOS || Platform.isLinux)) {
+      if (!kIsWeb &&
+          (Platform.isLinux || Platform.isMacOS || Platform.isWindows)) {
         return image as Uint8List;
       }
     }

@@ -28,9 +28,13 @@ class ScreenCapturerPlugin : public flutter::Plugin {
   void ScreenCapturerPlugin::CaptureScreen(
       const flutter::MethodCall<flutter::EncodableValue>& method_call,
       std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
+  void ScreenCapturerPlugin::ReadImageFromClipboard(
+      const flutter::MethodCall<flutter::EncodableValue>& method_call,
+      std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
   void ScreenCapturerPlugin::SaveClipboardImageAsPngFile(
       const flutter::MethodCall<flutter::EncodableValue>& method_call,
       std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result);
+  std::vector<BYTE> ScreenCapturerPlugin::Hbitmap2PNG(HBITMAP hbitmap);
   bool ScreenCapturerPlugin::SaveHbitmapToPngFile(HBITMAP hbitmap,
                                                   std::string image_path);
   // Called when a method is called on this plugin's channel from Dart.
@@ -71,6 +75,8 @@ void ScreenCapturerPlugin::CaptureScreen(
 
   std::string image_path =
       std::get<std::string>(args.at(flutter::EncodableValue("imagePath")));
+  // bool copy_to_clipboard =
+  //     std::get<bool>(args.at(flutter::EncodableValue("copyToClipboard")));
 
   flutter::EncodableMap result_map = flutter::EncodableMap();
 
@@ -127,11 +133,13 @@ void ScreenCapturerPlugin::CaptureScreen(
     return;
   }
 
-  bool saved = SaveHbitmapToPngFile(hbitmap, image_path);
+  if (!image_path.empty()) {
+    bool saved = SaveHbitmapToPngFile(hbitmap, image_path);
 
-  if (saved) {
-    result_map[flutter::EncodableValue("imagePath")] =
-        flutter::EncodableValue(image_path.c_str());
+    if (saved) {
+      result_map[flutter::EncodableValue("imagePath")] =
+          flutter::EncodableValue(image_path.c_str());
+    }
   }
 
   DeleteObject(hbitmap);
@@ -140,6 +148,25 @@ void ScreenCapturerPlugin::CaptureScreen(
   ReleaseDC(hwnd, hdcWindow);
 
   result->Success(flutter::EncodableValue(result_map));
+}
+
+void ScreenCapturerPlugin::ReadImageFromClipboard(
+    const flutter::MethodCall<flutter::EncodableValue>& method_call,
+    std::unique_ptr<flutter::MethodResult<flutter::EncodableValue>> result) {
+  HBITMAP hbitmap = NULL;
+
+  OpenClipboard(nullptr);
+  hbitmap = (HBITMAP)GetClipboardData(CF_BITMAP);
+  CloseClipboard();
+
+  if (hbitmap == NULL) {
+    result->Success();
+    return;
+  }
+
+  std::vector<BYTE> pngBuf = Hbitmap2PNG(hbitmap);
+  result->Success(flutter::EncodableValue(pngBuf));
+  pngBuf.clear();
 }
 
 void ScreenCapturerPlugin::SaveClipboardImageAsPngFile(
@@ -166,6 +193,27 @@ void ScreenCapturerPlugin::SaveClipboardImageAsPngFile(
   }
 
   result->Success(flutter::EncodableValue(result_map));
+}
+
+std::vector<BYTE> ScreenCapturerPlugin::Hbitmap2PNG(HBITMAP hbitmap) {
+  std::vector<BYTE> buf;
+  if (hbitmap != NULL) {
+    IStream* stream = NULL;
+    CreateStreamOnHGlobal(0, TRUE, &stream);
+    CImage image;
+    ULARGE_INTEGER liSize;
+
+    // screenshot to png and save to stream
+    image.Attach(hbitmap);
+    image.Save(stream, Gdiplus::ImageFormatPNG);
+    IStream_Size(stream, &liSize);
+    DWORD len = liSize.LowPart;
+    IStream_Reset(stream);
+    buf.resize(len);
+    IStream_Read(stream, &buf[0], len);
+    stream->Release();
+  }
+  return buf;
 }
 
 bool ScreenCapturerPlugin::SaveHbitmapToPngFile(HBITMAP hbitmap,
@@ -205,6 +253,8 @@ void ScreenCapturerPlugin::HandleMethodCall(
 
   if (method_name.compare("captureScreen") == 0) {
     CaptureScreen(method_call, std::move(result));
+  } else if (method_name.compare("readImageFromClipboard") == 0) {
+    ReadImageFromClipboard(method_call, std::move(result));
   } else if (method_name.compare("saveClipboardImageAsPngFile") == 0) {
     SaveClipboardImageAsPngFile(method_call, std::move(result));
   } else {

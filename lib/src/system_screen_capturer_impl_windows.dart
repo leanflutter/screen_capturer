@@ -76,7 +76,9 @@ class SystemScreenCapturerImplWindows extends SystemScreenCapturer {
     bool silent = true,
   }) async {
     if (mode == CaptureMode.screen) {
-      await captureScreen(imagePath: imagePath);
+      await ScreenCapturerPlatform.instance.captureScreen(
+        imagePath: imagePath,
+      );
       return;
     }
     await Clipboard.setData(const ClipboardData(text: ''));
@@ -97,14 +99,6 @@ class SystemScreenCapturerImplWindows extends SystemScreenCapturer {
 
     // ignore: deprecated_member_use_from_same_package
     await ScreenCapturerPlatform.instance.saveClipboardImageAsPngFile(
-      imagePath: imagePath,
-    );
-  }
-
-  Future<void> captureScreen({
-    required String imagePath,
-  }) async {
-    ScreenCapturerPlatform.instance.captureScreen(
       imagePath: imagePath,
     );
   }
