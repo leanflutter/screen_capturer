@@ -55,24 +55,39 @@ class ScreenCapturer {
   ///
   /// Returns a [CapturedData] object with the image path, width, height and base64 encoded image
   Future<CapturedData?> capture({
-    String? imagePath,
     CaptureMode mode = CaptureMode.region,
+    String? imagePath,
+    bool copyToClipboard = false,
     bool silent = true,
   }) async {
-    if (imagePath == null) throw ArgumentError.notNull('imagePath');
-    File imageFile = File(imagePath);
-    if (!imageFile.parent.existsSync()) {
-      imageFile.parent.create(recursive: true);
+    File? imageFile;
+    if (imagePath != null) {
+      imageFile = File(imagePath);
+      if (!imageFile.parent.existsSync()) {
+        imageFile.parent.create(recursive: true);
+      }
     }
     await _systemScreenCapturer.capture(
       mode: mode,
       imagePath: imagePath,
+      copyToClipboard: copyToClipboard,
       silent: silent,
     );
-    if (imageFile.existsSync()) {
-      Uint8List imageBytes = imageFile.readAsBytesSync();
-      final decodedImage = await decodeImageFromList(imageBytes);
 
+    Uint8List? imageBytes;
+    if (imageFile != null && imageFile.existsSync()) {
+      imageBytes = imageFile.readAsBytesSync();
+    }
+    if (copyToClipboard) {
+      imageBytes = await readImageFromClipboard();
+    }
+
+    if (imageBytes != null) {
+      // 系统截图命令当传入复制到剪切板时，不会保存到文件，所以这里需要手动保存
+      if (imageFile != null && !imageFile.existsSync()) {
+        imageFile.writeAsBytesSync(imageBytes);
+      }
+      final decodedImage = await decodeImageFromList(imageBytes);
       return CapturedData(
         imagePath: imagePath,
         imageWidth: decodedImage.width,

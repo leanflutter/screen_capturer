@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:screen_capturer/src/capture_mode.dart';
 import 'package:screen_capturer/src/system_screen_capturer.dart';
+import 'package:shell_executor/shell_executor.dart';
 
 final Map<CaptureMode, List<String>> _knownCaptureModeArgs = {
   CaptureMode.region: ['-i', '-r'],
@@ -14,20 +13,17 @@ class SystemScreenCapturerImplMacOS extends SystemScreenCapturer {
 
   @override
   Future<void> capture({
-    required String imagePath,
-    CaptureMode mode = CaptureMode.region,
+    required CaptureMode mode,
+    String? imagePath,
+    bool copyToClipboard = true,
     bool silent = true,
   }) async {
     List<String> arguments = [
       ..._knownCaptureModeArgs[mode]!,
-      silent ? '-x' : '',
-      imagePath,
+      ...(copyToClipboard ? ['-c'] : []),
+      ...(silent ? ['-x'] : []),
+      ...(imagePath != null ? [imagePath] : []),
     ];
-    arguments.removeWhere((e) => e.isEmpty);
-
-    await Process.run(
-      '/usr/sbin/screencapture',
-      arguments,
-    );
+    await $('/usr/sbin/screencapture', arguments);
   }
 }

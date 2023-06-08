@@ -71,13 +71,15 @@ class SystemScreenCapturerImplWindows extends SystemScreenCapturer {
 
   @override
   Future<void> capture({
-    required String imagePath,
-    CaptureMode mode = CaptureMode.region,
+    required CaptureMode mode,
+    String? imagePath,
+    bool copyToClipboard = true,
     bool silent = true,
   }) async {
     if (mode == CaptureMode.screen) {
+      assert(imagePath == null);
       await ScreenCapturerPlatform.instance.captureScreen(
-        imagePath: imagePath,
+        imagePath: imagePath!,
       );
       return;
     }
@@ -97,9 +99,10 @@ class SystemScreenCapturerImplWindows extends SystemScreenCapturer {
       await Future.delayed(const Duration(milliseconds: 200));
     }
 
-    // ignore: deprecated_member_use_from_same_package
-    await ScreenCapturerPlatform.instance.saveClipboardImageAsPngFile(
-      imagePath: imagePath,
-    );
+    if (imagePath != null) {
+      await ScreenCapturerPlatform.instance.saveClipboardImageAsPngFile(
+        imagePath: imagePath,
+      );
+    }
   }
 }

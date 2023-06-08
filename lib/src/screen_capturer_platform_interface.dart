@@ -40,7 +40,6 @@ abstract class ScreenCapturerPlatform extends PlatformInterface {
     );
   }
 
-  @Deprecated('后续版本将移除')
   Future<void> saveClipboardImageAsPngFile({
     required String imagePath,
   }) {

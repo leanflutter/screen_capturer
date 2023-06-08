@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _isAccessAllowed = false;
+  bool _copyToClipboard = false;
 
   CapturedData? _lastCapturedData;
   Uint8List? _imageBytesFromClipboard;
@@ -42,6 +43,7 @@ class _HomePageState extends State<HomePage> {
     _lastCapturedData = await screenCapturer.capture(
       mode: mode,
       imagePath: imagePath,
+      copyToClipboard: _copyToClipboard,
       silent: true,
     );
     if (_lastCapturedData != null) {
@@ -93,6 +95,19 @@ class _HomePageState extends State<HomePage> {
             PreferenceListItem(
               title: const Text('capture'),
               accessoryView: Row(children: [
+                Row(
+                  children: [
+                    CupertinoCheckbox(
+                      value: _copyToClipboard,
+                      onChanged: (value) {
+                        _copyToClipboard = value!;
+                        setState(() {});
+                      },
+                    ),
+                    const Text('copyToClipboard'),
+                    const SizedBox(width: 10),
+                  ],
+                ),
                 CupertinoButton(
                   child: const Text('region'),
                   onPressed: () {

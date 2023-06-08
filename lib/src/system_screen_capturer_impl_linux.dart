@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:screen_capturer/src/capture_mode.dart';
 import 'package:screen_capturer/src/system_screen_capturer.dart';
+import 'package:shell_executor/shell_executor.dart';
 
 final Map<CaptureMode, List<String>> _knownCaptureModeArgs = {
   CaptureMode.region: ['-a'],
@@ -14,17 +13,16 @@ class SystemScreenCapturerImplLinux extends SystemScreenCapturer {
 
   @override
   Future<void> capture({
-    required String imagePath,
-    CaptureMode mode = CaptureMode.region,
+    required CaptureMode mode,
+    String? imagePath,
+    bool copyToClipboard = true,
     bool silent = true,
   }) async {
-    await Process.run(
-      'gnome-screenshot',
-      [
-        ..._knownCaptureModeArgs[mode]!,
-        '-f',
-        imagePath,
-      ],
-    );
+    List<String> arguments = [
+      ..._knownCaptureModeArgs[mode]!,
+      ...(copyToClipboard ? ['-c'] : []),
+      ...(imagePath != null ? ['-f', imagePath] : []),
+    ];
+    await $('gnome-screenshot', arguments);
   }
 }
