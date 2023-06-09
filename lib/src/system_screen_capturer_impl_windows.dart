@@ -77,7 +77,6 @@ class SystemScreenCapturerImplWindows extends SystemScreenCapturer {
     bool silent = true,
   }) async {
     if (mode == CaptureMode.screen) {
-      assert(imagePath == null);
       await ScreenCapturerPlatform.instance.captureScreen(
         imagePath: imagePath!,
       );
