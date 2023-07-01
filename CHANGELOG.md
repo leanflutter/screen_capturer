@@ -1,3 +1,7 @@
+## 0.1.6
+
+* [windows] imagePath null check fixes (#21)
+
 ## 0.1.5
 
 * Add `readImageFromClipboard` method to read image from clipboard.

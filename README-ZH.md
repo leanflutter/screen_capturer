@@ -46,7 +46,7 @@
 
 ```yaml
 dependencies:
-  screen_capturer: ^0.1.5
+  screen_capturer: ^0.1.6
 ```
 
 或
