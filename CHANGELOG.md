@@ -1,3 +1,7 @@
+## 0.1.7
+
+* fix: build in web #23
+
 ## 0.1.6
 
 * [windows] imagePath null check fixes (#21)
