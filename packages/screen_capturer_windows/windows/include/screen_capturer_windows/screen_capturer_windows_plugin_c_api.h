@@ -1,5 +1,5 @@
-#ifndef FLUTTER_PLUGIN_screen_capturer_WINDOWS_PLUGIN_C_API_H_
-#define FLUTTER_PLUGIN_screen_capturer_WINDOWS_PLUGIN_C_API_H_
+#ifndef FLUTTER_PLUGIN_SCREEN_CAPTURER_WINDOWS_PLUGIN_C_API_H_
+#define FLUTTER_PLUGIN_SCREEN_CAPTURER_WINDOWS_PLUGIN_C_API_H_
 
 #include <flutter_plugin_registrar.h>
 
@@ -20,4 +20,4 @@ FLUTTER_PLUGIN_EXPORT void ScreenCapturerWindowsPluginCApiRegisterWithRegistrar(
 }  // extern "C"
 #endif
 
-#endif  // FLUTTER_PLUGIN_screen_capturer_WINDOWS_PLUGIN_C_API_H_
+#endif  // FLUTTER_PLUGIN_SCREEN_CAPTURER_WINDOWS_PLUGIN_C_API_H_

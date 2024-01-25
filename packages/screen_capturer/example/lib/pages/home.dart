@@ -4,6 +4,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:preference_list/preference_list.dart';
 import 'package:screen_capturer/screen_capturer.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,6 +17,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Directory? _screenshotsDirectory;
+
   bool _isAccessAllowed = false;
   bool _copyToClipboard = false;
 
@@ -29,13 +32,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _init() async {
+    _screenshotsDirectory = await getApplicationDocumentsDirectory();
     _isAccessAllowed = await screenCapturer.isAccessAllowed();
 
     setState(() {});
   }
 
   void _handleClickCapture(CaptureMode mode) async {
-    Directory directory = await getApplicationDocumentsDirectory();
+    Directory directory =
+        _screenshotsDirectory ?? await getApplicationDocumentsDirectory();
+
     String imageName =
         'Screenshot-${DateTime.now().millisecondsSinceEpoch}.png';
     String imagePath =
@@ -59,9 +65,24 @@ class _HomePageState extends State<HomePage> {
   Widget _buildBody(BuildContext context) {
     return PreferenceList(
       children: <Widget>[
-        if (!kIsWeb && Platform.isMacOS)
+        if (_screenshotsDirectory != null)
           PreferenceListSection(
             children: [
+              PreferenceListItem(
+                title: const Text('Output Directory'),
+                accessoryView: Text(_screenshotsDirectory!.path),
+                onTap: () {
+                  Clipboard.setData(
+                      ClipboardData(text: _screenshotsDirectory!.path));
+                  BotToast.showText(text: 'Copied to clipboard');
+                },
+              ),
+            ],
+          ),
+        PreferenceListSection(
+          title: const Text('METHODS'),
+          children: [
+            if (!kIsWeb && Platform.isMacOS) ...[
               PreferenceListItem(
                 title: const Text('isAccessAllowed'),
                 accessoryView: Text('$_isAccessAllowed'),
@@ -80,10 +101,6 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ],
-          ),
-        PreferenceListSection(
-          title: const Text('METHODS'),
-          children: [
             PreferenceListItem(
               title: const Text('readImageFromClipboard'),
               onTap: () async {

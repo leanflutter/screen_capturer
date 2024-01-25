@@ -32,6 +32,7 @@ dependencies:
   hotkey_manager: ^0.1.8
   preference_list: ^0.0.1
   path_provider: ^2.0.15
+  shell_executor: ^0.1.4
 
 dev_dependencies:
   integration_test:
