@@ -39,6 +39,20 @@ jobs:
           melos bs
           flutter build macos --release
 
+  build-web:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.16.8"
+          channel: "stable"
+      - uses: bluefireteam/melos-action@v2
+      - working-directory: ./packages/screen_capturer/example
+        run: |
+          melos bs
+          flutter build web --release
+
   build-windows:
     runs-on: windows-latest
     steps:
