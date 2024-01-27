@@ -1,11 +1,13 @@
 # screen_capturer
 
-[![pub version][pub-image]][pub-url] [![][discord-image]][discord-url]
+[![pub version][pub-image]][pub-url] [![][discord-image]][discord-url] [![All Contributors][all-contributors-image]](#contributors)
 
 [pub-image]: https://img.shields.io/pub/v/screen_capturer.svg
 [pub-url]: https://pub.dev/packages/screen_capturer
 [discord-image]: https://img.shields.io/discord/884679008049037342.svg
 [discord-url]: https://discord.gg/zPa6EZ2jqb
+
+[all-contributors-image]: https://img.shields.io/github/all-contributors/leanflutter/screen_capturer?color=ee8449
 
 This plugin allows Flutter desktop apps to take screenshots.
 
@@ -109,6 +111,37 @@ CapturedData? capturedData = await screenCapturer.capture(
 ## Who's using it?
 
 - [Biyi (比译)](https://biyidev.com/) - A convenient translation and dictionary app.
+
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/lijy91"><img src="https://avatars.githubusercontent.com/u/3889523?v=4?s=100" width="100px;" alt="LiJianying"/><br /><sub><b>LiJianying</b></sub></a><br /><a href="https://github.com/leanflutter/screen_capturer/commits?author=lijy91" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/amit548"><img src="https://avatars.githubusercontent.com/u/36206377?v=4?s=100" width="100px;" alt="Amit Mondal"/><br /><sub><b>Amit Mondal</b></sub></a><br /><a href="https://github.com/leanflutter/screen_capturer/commits?author=amit548" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/lightrabbit"><img src="https://avatars.githubusercontent.com/u/1521765?v=4?s=100" width="100px;" alt="lightrabbit"/><br /><sub><b>lightrabbit</b></sub></a><br /><a href="https://github.com/leanflutter/screen_capturer/commits?author=lightrabbit" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://liuyu.xin/"><img src="https://avatars.githubusercontent.com/u/79075347?v=4?s=100" width="100px;" alt="liuyuxin"/><br /><sub><b>liuyuxin</b></sub></a><br /><a href="https://github.com/leanflutter/screen_capturer/commits?author=gvenusleo" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://boring.cool/"><img src="https://avatars.githubusercontent.com/u/16132584?v=4?s=100" width="100px;" alt="kalykun"/><br /><sub><b>kalykun</b></sub></a><br /><a href="https://github.com/leanflutter/screen_capturer/commits?author=kungege" title="Documentation">📖</a></td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td align="center" size="13px" colspan="7">
+        <img src="https://raw.githubusercontent.com/all-contributors/all-contributors-cli/1b8533af435da9854653492b1327a23a4dbd0a10/assets/logo-small.svg">
+          <a href="https://all-contributors.js.org/docs/en/bot/usage">Add your contributions</a>
+        </img>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## License
 

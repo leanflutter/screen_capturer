@@ -1,0 +1,62 @@
+{
+  "projectName": "screen_capturer",
+  "projectOwner": "leanflutter",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md",
+    "README-ZH.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "lijy91",
+      "name": "LiJianying",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3889523?v=4",
+      "profile": "https://github.com/lijy91",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "amit548",
+      "name": "Amit Mondal",
+      "avatar_url": "https://avatars.githubusercontent.com/u/36206377?v=4",
+      "profile": "https://github.com/amit548",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "lightrabbit",
+      "name": "lightrabbit",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1521765?v=4",
+      "profile": "https://github.com/lightrabbit",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "gvenusleo",
+      "name": "liuyuxin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/79075347?v=4",
+      "profile": "https://liuyu.xin/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "kungege",
+      "name": "kalykun",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16132584?v=4",
+      "profile": "https://boring.cool/",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "linkToUsage": true
+}
