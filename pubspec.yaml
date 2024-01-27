@@ -1,39 +1,9 @@
-name: screen_capturer
-description: This plugin allows Flutter desktop apps to capture screenshots.
-version: 0.1.7
+name: screen_capturer_workspace
 homepage: https://github.com/leanflutter/screen_capturer
-
-platforms:
-  linux:
-  macos:
-  windows:
-
-topics:
-  - screenshot
+publish_to: none
 
 environment:
-  sdk: ">=2.18.0 <4.0.0"
-  flutter: ">=3.3.0"
-
-dependencies:
-  ffi: ^2.0.2
-  flutter:
-    sdk: flutter
-  plugin_platform_interface: ^2.0.2
-  shell_executor: ^0.1.4
-  win32: '>=2.6.0 <6.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 dev_dependencies:
-  flutter_lints: ^2.0.0
-  flutter_test:
-    sdk: flutter
-
-flutter:
-  plugin:
-    platforms:
-      linux:
-        pluginClass: ScreenCapturerPlugin
-      macos:
-        pluginClass: ScreenCapturerPlugin
-      windows:
-        pluginClass: ScreenCapturerPlugin
+  melos: ^3.1.0
