@@ -1,3 +1,8 @@
+## 0.2.1
+
+* feat: Convert to federated plugin #29
+* feat: Support on KDE Plasma desktop (use spectacle command) #27
+
 ## 0.1.7
 
 * fix: build in web #23
