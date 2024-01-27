@@ -2,10 +2,17 @@ import 'package:screen_capturer/src/capture_mode.dart';
 import 'package:screen_capturer/src/system_screen_capturer.dart';
 import 'package:shell_executor/shell_executor.dart';
 
-final Map<CaptureMode, List<String>> _knownCaptureModeArgs = {
-  CaptureMode.region: ['-a'],
-  CaptureMode.screen: [],
-  CaptureMode.window: ['-w'],
+final Map<String, Map<CaptureMode, List<String>>> _knownCaptureModeArgs = {
+  'gnome-screenshot': {
+    CaptureMode.region: ['-a'],
+    CaptureMode.screen: [],
+    CaptureMode.window: ['-w'],
+  },
+  'spectacle': {
+    CaptureMode.region: ['-r'],
+    CaptureMode.screen: ['-f'],
+    CaptureMode.window: ['-a'],
+  }
 };
 
 class SystemScreenCapturerImplLinux extends SystemScreenCapturer {
@@ -18,11 +25,26 @@ class SystemScreenCapturerImplLinux extends SystemScreenCapturer {
     bool copyToClipboard = true,
     bool silent = true,
   }) async {
-    List<String> arguments = [
-      ..._knownCaptureModeArgs[mode]!,
-      ...(copyToClipboard ? ['-c'] : []),
-      ...(imagePath != null ? ['-f', imagePath] : []),
-    ];
-    await $('gnome-screenshot', arguments);
+    try {
+      List<String> arguments = [
+        ..._knownCaptureModeArgs['gnome-screenshot']![mode]!,
+        ...(copyToClipboard ? ['-c'] : []),
+        ...(imagePath != null ? ['-f', imagePath] : []),
+      ];
+      await $('gnome-screenshot', arguments);
+    } catch (e) {
+      try {
+        List<String> arguments = [
+          '-b',
+          '-n',
+          ..._knownCaptureModeArgs['spectacle']![mode]!,
+          ...(copyToClipboard ? ['-c'] : []),
+          ...(imagePath != null ? ['-o', imagePath] : []),
+        ];
+        await $('spectacle', arguments);
+      } catch (e) {
+        rethrow;
+      }
+    }
   }
 }
