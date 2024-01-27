@@ -5,12 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:preference_list/preference_list.dart';
 import 'package:screen_capturer/screen_capturer.dart';
-import 'package:path_provider/path_provider.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -31,14 +31,14 @@ class _HomePageState extends State<HomePage> {
     _init();
   }
 
-  void _init() async {
+  Future<void> _init() async {
     _screenshotsDirectory = await getApplicationDocumentsDirectory();
     _isAccessAllowed = await screenCapturer.isAccessAllowed();
 
     setState(() {});
   }
 
-  void _handleClickCapture(CaptureMode mode) async {
+  Future<void> _handleClickCapture(CaptureMode mode) async {
     Directory directory =
         _screenshotsDirectory ?? await getApplicationDocumentsDirectory();
 
@@ -73,7 +73,8 @@ class _HomePageState extends State<HomePage> {
                 accessoryView: Text(_screenshotsDirectory!.path),
                 onTap: () {
                   Clipboard.setData(
-                      ClipboardData(text: _screenshotsDirectory!.path));
+                    ClipboardData(text: _screenshotsDirectory!.path),
+                  );
                   BotToast.showText(text: 'Copied to clipboard');
                 },
               ),
@@ -111,39 +112,41 @@ class _HomePageState extends State<HomePage> {
             ),
             PreferenceListItem(
               title: const Text('capture'),
-              accessoryView: Row(children: [
-                Row(
-                  children: [
-                    CupertinoCheckbox(
-                      value: _copyToClipboard,
-                      onChanged: (value) {
-                        _copyToClipboard = value!;
-                        setState(() {});
-                      },
-                    ),
-                    const Text('copyToClipboard'),
-                    const SizedBox(width: 10),
-                  ],
-                ),
-                CupertinoButton(
-                  child: const Text('region'),
-                  onPressed: () {
-                    _handleClickCapture(CaptureMode.region);
-                  },
-                ),
-                CupertinoButton(
-                  child: const Text('screen'),
-                  onPressed: () {
-                    _handleClickCapture(CaptureMode.screen);
-                  },
-                ),
-                CupertinoButton(
-                  child: const Text('window'),
-                  onPressed: () {
-                    _handleClickCapture(CaptureMode.window);
-                  },
-                ),
-              ]),
+              accessoryView: Row(
+                children: [
+                  Row(
+                    children: [
+                      CupertinoCheckbox(
+                        value: _copyToClipboard,
+                        onChanged: (value) {
+                          _copyToClipboard = value!;
+                          setState(() {});
+                        },
+                      ),
+                      const Text('copyToClipboard'),
+                      const SizedBox(width: 10),
+                    ],
+                  ),
+                  CupertinoButton(
+                    child: const Text('region'),
+                    onPressed: () {
+                      _handleClickCapture(CaptureMode.region);
+                    },
+                  ),
+                  CupertinoButton(
+                    child: const Text('screen'),
+                    onPressed: () {
+                      _handleClickCapture(CaptureMode.screen);
+                    },
+                  ),
+                  CupertinoButton(
+                    child: const Text('window'),
+                    onPressed: () {
+                      _handleClickCapture(CaptureMode.window);
+                    },
+                  ),
+                ],
+              ),
             ),
           ],
         ),
