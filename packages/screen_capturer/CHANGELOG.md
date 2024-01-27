@@ -1,4 +1,4 @@
-## 0.2.0
+## 0.2.1
 
 * feat: Convert to federated plugin #29
 * feat: Support on KDE Plasma desktop (use spectacle command) #27

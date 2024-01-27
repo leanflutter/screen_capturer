@@ -46,7 +46,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  screen_capturer: ^0.2.0
+  screen_capturer: ^0.2.1
 ```
 
 Or

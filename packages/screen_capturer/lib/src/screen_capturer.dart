@@ -41,7 +41,7 @@ class ScreenCapturer {
   ///
   /// Returns a [CapturedData] object with the image path, width, height and base64 encoded image
   Future<CapturedData?> capture({
-    required CaptureMode mode,
+    CaptureMode mode = CaptureMode.region,
     String? imagePath,
     bool copyToClipboard = true,
     bool silent = true,
