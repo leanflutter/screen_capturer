@@ -57,6 +57,7 @@ dependencies:
 dependencies:
   screen_capturer:
     git:
+      path: packages/screen_capturer
       url: https://github.com/leanflutter/screen_capturer.git
       ref: main
 ```
