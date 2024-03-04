@@ -1,4 +1,4 @@
-name: screen_capturer_workspace
+name: screen_capturer
 repository: https://github.com/leanflutter/screen_capturer
 
 packages:

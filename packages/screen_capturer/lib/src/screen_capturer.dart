@@ -54,7 +54,6 @@ class ScreenCapturer {
       }
     }
     if (copyToClipboard) {
-      // 如果是复制到剪切板，先清空剪切板，避免结果不正确
       Clipboard.setData(const ClipboardData(text: ''));
     }
     await _platform.systemScreenCapturer.capture(
@@ -73,8 +72,8 @@ class ScreenCapturer {
     }
 
     if (imageBytes != null) {
-      // 系统截图命令当传入复制到剪切板时，不会保存到文件，所以这里需要手动保存
       if (imageFile != null && !imageFile.existsSync()) {
+        print('Save image: $imageBytes');
         imageFile.writeAsBytesSync(imageBytes);
       }
       final decodedImage = await decodeImageFromList(imageBytes);
