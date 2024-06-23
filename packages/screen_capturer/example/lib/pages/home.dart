@@ -1,12 +1,9 @@
 import 'dart:io';
 
-import 'package:bot_toast/bot_toast.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:preference_list/preference_list.dart';
 import 'package:screen_capturer/screen_capturer.dart';
 
 class HomePage extends StatefulWidget {
@@ -63,46 +60,58 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return PreferenceList(
+    return ListView(
       children: <Widget>[
         if (_screenshotsDirectory != null)
-          PreferenceListSection(
+          Column(
             children: [
-              PreferenceListItem(
+              ListTile(
                 title: const Text('Output Directory'),
-                accessoryView: Text(_screenshotsDirectory!.path),
+                trailing: Text(_screenshotsDirectory!.path),
                 onTap: () {
                   Clipboard.setData(
                     ClipboardData(text: _screenshotsDirectory!.path),
                   );
-                  BotToast.showText(text: 'Copied to clipboard');
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(const SnackBar(content: Text('Copied')));
                 },
               ),
             ],
           ),
-        PreferenceListSection(
-          title: const Text('METHODS'),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+              margin: const EdgeInsets.only(top: 32, bottom: 8, left: 16),
+              child: const Text(
+                'METHODS',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+            ),
             if (!kIsWeb && Platform.isMacOS) ...[
-              PreferenceListItem(
+              ListTile(
                 title: const Text('isAccessAllowed'),
-                accessoryView: Text('$_isAccessAllowed'),
+                trailing: Text('$_isAccessAllowed'),
                 onTap: () async {
                   bool allowed = await screenCapturer.isAccessAllowed();
-                  BotToast.showText(text: 'allowed: $allowed');
+                  // ignore: use_build_context_synchronously
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('allowed: $allowed')),
+                  );
                   setState(() {
                     _isAccessAllowed = allowed;
                   });
                 },
               ),
-              PreferenceListItem(
+              ListTile(
                 title: const Text('requestAccess'),
                 onTap: () async {
                   await screenCapturer.requestAccess();
                 },
               ),
             ],
-            PreferenceListItem(
+            ListTile(
               title: const Text('readImageFromClipboard'),
               onTap: () async {
                 _imageBytesFromClipboard =
@@ -110,13 +119,14 @@ class _HomePageState extends State<HomePage> {
                 setState(() {});
               },
             ),
-            PreferenceListItem(
+            ListTile(
               title: const Text('capture'),
-              accessoryView: Row(
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Row(
                     children: [
-                      CupertinoCheckbox(
+                      Checkbox(
                         value: _copyToClipboard,
                         onChanged: (value) {
                           _copyToClipboard = value!;
@@ -124,22 +134,24 @@ class _HomePageState extends State<HomePage> {
                         },
                       ),
                       const Text('copyToClipboard'),
-                      const SizedBox(width: 10),
                     ],
                   ),
-                  CupertinoButton(
+                  const SizedBox(width: 10),
+                  FilledButton(
                     child: const Text('region'),
                     onPressed: () {
                       _handleClickCapture(CaptureMode.region);
                     },
                   ),
-                  CupertinoButton(
+                  const SizedBox(width: 10),
+                  FilledButton(
                     child: const Text('screen'),
                     onPressed: () {
                       _handleClickCapture(CaptureMode.screen);
                     },
                   ),
-                  CupertinoButton(
+                  const SizedBox(width: 10),
+                  FilledButton(
                     child: const Text('window'),
                     onPressed: () {
                       _handleClickCapture(CaptureMode.window);
@@ -176,9 +188,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Plugin example app'),
+        title: const Text('screen_capturer_example'),
       ),
-      body: _buildBody(context),
+      body: Container(
+        child: _buildBody(context),
+      ),
     );
   }
 }

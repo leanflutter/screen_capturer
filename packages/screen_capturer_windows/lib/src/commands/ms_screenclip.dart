@@ -18,7 +18,8 @@ bool _isScreenClipping() {
   GetWindowThreadProcessId(hWnd, lpdwProcessId);
   // Get a handle to the process.
   final hProcess = OpenProcess(
-    PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
+    PROCESS_ACCESS_RIGHTS.PROCESS_QUERY_INFORMATION |
+        PROCESS_ACCESS_RIGHTS.PROCESS_VM_READ,
     FALSE,
     lpdwProcessId.value,
   );
@@ -43,10 +44,11 @@ bool _isScreenClipping() {
       for (var i = 0; i < (cbNeeded.value ~/ sizeOf<HMODULE>()); i++) {
         final szModName = wsalloc(MAX_PATH);
         // Get the full path to the module's file.
-        final hModule = hModules.elementAt(i).value;
+        final hModule = (hModules + i).value;
         if (GetModuleFileNameEx(hProcess, hModule, szModName, MAX_PATH) != 0) {
           String moduleName = szModName.toDartString();
-          if (moduleName.contains('ScreenClippingHost.exe')) {
+          if (moduleName.contains('ScreenClippingHost.exe') ||
+              moduleName.contains('SnippingTool.exe')) {
             free(szModName);
             return true;
           }
@@ -71,22 +73,20 @@ class _MsScreenclip with SystemScreenCapturer {
     bool copyToClipboard = true,
     bool silent = true,
   }) async {
+    String url = 'ms-screenclip://?';
     if (mode == CaptureMode.screen) {
-      assert(imagePath != null);
-      await ScreenCapturerPlatform.instance.captureScreen(
-        imagePath: imagePath!,
-      );
-      return;
+      url += 'type=snapshot';
+    } else {
+      url += 'clippingMode=${_knownCaptureModeArgs[mode]}';
     }
     await Clipboard.setData(const ClipboardData(text: ''));
     ShellExecute(
       0,
       'open'.toNativeUtf16(),
-      'ms-screenclip://?clippingMode=${_knownCaptureModeArgs[mode]}'
-          .toNativeUtf16(),
+      url.toNativeUtf16(),
       nullptr,
       nullptr,
-      SW_SHOWNORMAL,
+      SHOW_WINDOW_CMD.SW_SHOWNORMAL,
     );
     await Future.delayed(const Duration(seconds: 1));
 
