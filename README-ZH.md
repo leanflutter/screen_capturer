@@ -9,7 +9,7 @@
 
 [all-contributors-image]: https://img.shields.io/github/all-contributors/leanflutter/screen_capturer?color=ee8449
 
-这个插件允许 Flutter 桌面应用调整窗口的大小和位置。
+这个插件允许 Flutter 桌面应用程序进行屏幕截图。
 
 ---
 
