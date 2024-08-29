@@ -1,3 +1,4 @@
+import 'package:screen_capturer_linux/src/commands/deepin_screen_recorder.dart';
 import 'package:screen_capturer_linux/src/commands/gnome_screenshot.dart';
 import 'package:screen_capturer_linux/src/commands/spectacle.dart';
 import 'package:screen_capturer_platform_interface/screen_capturer_platform_interface.dart';
@@ -26,10 +27,29 @@ class ScreenCapturerLinux extends MethodChannelScreenCapturer {
     return _isKdeDesktop!;
   }
 
+  bool? _isDeepinDesktop;
+
+  bool get isDeepinDesktop {
+    if (_isDeepinDesktop == null) {
+      try {
+        final result =
+            ShellExecutor.global.execSync('deepin-screen-recorder', ['-v']);
+        _isDeepinDesktop = result.exitCode == 0;
+      } catch (_) {
+        _isDeepinDesktop = false;
+      }
+    }
+    return _isDeepinDesktop!;
+  }
+
   @override
   SystemScreenCapturer get systemScreenCapturer {
     if (isKdeDesktop) {
       return spectacle;
+    }
+
+    if (isDeepinDesktop) {
+      return deepinScreenRecorder;
     }
     return gnomeScreenshot;
   }
