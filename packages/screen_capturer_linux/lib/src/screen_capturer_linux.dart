@@ -32,7 +32,8 @@ class ScreenCapturerLinux extends MethodChannelScreenCapturer {
   bool get isDeepinDesktop {
     if (_isDeepinDesktop == null) {
       try {
-        final result = ShellExecutor.global.execSync('deepin-screen-recorder', ['-v']);
+        final result =
+            ShellExecutor.global.execSync('deepin-screen-recorder', ['-v']);
         _isDeepinDesktop = result.exitCode == 0;
       } catch (_) {
         _isDeepinDesktop = false;
