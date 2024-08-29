@@ -1,6 +1,6 @@
 name: screen_capturer_linux
 description: Linux implementation of the screen_capturer plugin.
-version: 0.2.2
+version: 0.2.3
 repository: https://github.com/leanflutter/screen_capturer/tree/main/packages/screen_capturer_linux
 
 environment:
